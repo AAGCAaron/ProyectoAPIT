@@ -1,0 +1,31 @@
+# Archivos de credenciales y entorno
+.env
+
+# Datos extraídos (pueden ser pesados)
+data/
+
+# Reportes y figuras generadas
+reports/
+
+# Entorno virtual de Python
+venv/
+.venv/
+env/
+
+# Archivos de caché de Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Modelos descargados de HuggingFace (pueden ser muy pesados)
+models/
+
+# Checkpoints de entrenamiento
+checkpoints/
+
+# Archivos de Jupyter
+.ipynb_checkpoints/
+
+# Configuración de IDEs
+.vscode/
+.idea/

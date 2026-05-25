@@ -1,0 +1,42 @@
+# ─────────────────────────────────────────────────────────────────────
+# Dependencias del Proyecto ABSA - PC Hardware
+# Compatible con Python 3.12+ / 3.13+ / 3.14+
+# Se usan rangos de versión para permitir ruedas precompiladas (wheels)
+# ─────────────────────────────────────────────────────────────────────
+
+# Extracción de datos de Reddit
+praw>=7.7.1
+
+# NLP y preprocesamiento
+# spaCy: sin pin estricto para que pip escoja la rueda compatible con tu Python
+spacy>=3.7
+nltk>=3.8
+
+# Transformers y Deep Learning
+# torch: instalar manualmente según tu hardware (ver instrucciones abajo)
+transformers>=4.40
+sentence-transformers>=2.7
+
+# Manipulación de datos
+pandas>=2.0
+numpy>=1.26
+pyarrow>=14.0        # Para formato Parquet
+
+# Machine Learning y métricas
+scikit-learn>=1.4
+
+# Visualización
+matplotlib>=3.8
+plotly>=5.18
+
+# Interfaz interactiva
+streamlit>=1.30
+gradio>=4.20
+
+# Jupyter Notebooks
+jupyter>=1.0
+ipykernel>=6.29
+
+# Utilidades
+tqdm>=4.66
+python-dotenv>=1.0
