@@ -48,6 +48,19 @@ ASPECT_CATEGORIES = {
     ],
 }
 
+# Lista negra de términos genéricos que no son aspectos de hardware
+# pero pueden colarse por similitud semántica débil (spam, comentarios
+# promocionales, palabras vacías del dominio coloquial).
+ASPECT_BLACKLIST = {
+    "app", "video", "youtube", "channel", "subscriber", "comment", "month",
+    "year", "day", "time", "thing", "stuff", "guy", "people", "person",
+    "discount", "download", "link", "code", "promo", "subscription",
+    "laptop", "system", "use", "user", "way", "plan", "review", "watch",
+    "everyone", "anyone", "someone", "everything", "nothing", "something",
+    "one", "two", "three", "lot", "bit", "type", "kind", "sort",
+    "today", "tomorrow", "yesterday", "week", "hour", "minute", "second",
+}
+
 # ────────────────────────────────────────────────────────────
 # Carga de modelos
 # ────────────────────────────────────────────────────────────
@@ -118,13 +131,16 @@ class AspectExtractor:
 
         # Extraer frases nominales (noun chunks)
         for chunk in doc.noun_chunks:
-            if len(chunk.text.split()) <= 4:  # Máximo 4 palabras
-                candidatos.add(chunk.text.lower())
+            texto_chunk = chunk.text.lower().strip()
+            if len(texto_chunk.split()) <= 4 and texto_chunk not in ASPECT_BLACKLIST:
+                candidatos.add(texto_chunk)
 
         # Extraer sustantivos individuales con contexto adjetival
         for token in doc:
             if token.pos_ in ("NOUN", "PROPN") and len(token.text) > 2:
-                candidatos.add(token.lemma_.lower())
+                lema = token.lemma_.lower()
+                if lema not in ASPECT_BLACKLIST:
+                    candidatos.add(lema)
 
         return list(candidatos)
 
@@ -164,7 +180,7 @@ class AspectExtractor:
         Pipeline completo de extracción y clasificación de aspectos.
 
         Args:
-            texto: Texto preprocesado de un comentario de Reddit.
+            texto: Texto preprocesado de un comentario de YouTube.
 
         Returns:
             Lista de diccionarios con los aspectos detectados:

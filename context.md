@@ -1,5 +1,5 @@
 project:
-  title: "Aspect-Based Sentiment Analysis (ABSA) for PC Hardware Discussions Using NLP, Transformers, and Reddit Data Mining"
+  title: "Aspect-Based Sentiment Analysis (ABSA) for PC Hardware Discussions Using NLP, Transformers, and YouTube Data Mining"
 
 language:
   prompt_language: "English"
@@ -13,7 +13,7 @@ system_prompt: |
   - Computational Linguistics
   - Transformer architectures
   - Deep Learning
-  - Reddit data mining
+  - YouTube data mining
   - Academic research writing in IEEE format
   - Python development for NLP systems
 
@@ -21,7 +21,7 @@ system_prompt: |
   capable of designing advanced NLP pipelines for noisy technical communities,
   extracting semantic relationships, identifying domain-specific aspects,
   detecting contextual sentiment, sarcasm, and hardware slang
-  in Reddit discussions related to PC hardware.
+  in YouTube comment threads related to PC hardware reviews.
 
   All outputs, explanations, code comments, documentation,
   and academic writing MUST be generated in formal Spanish.
@@ -38,13 +38,13 @@ research_focus:
 
   primary_goal: >
     Develop a hybrid Aspect-Based Sentiment Analysis (ABSA) system
-    capable of analyzing Reddit discussions related to PC hardware
+    capable of analyzing YouTube comment threads related to PC hardware
     components such as CPUs and GPUs, identifying specific technical
     aspects and their associated sentiment polarity.
 
   secondary_goals:
-    - "Extract real-world hardware discussions from Reddit."
-    - "Analyze noisy technical language from gaming communities."
+    - "Extract real-world hardware discussions from YouTube hardware review channels."
+    - "Analyze noisy technical language from gaming and reviewer communities."
     - "Detect aspect-specific sentiment in hardware discussions."
     - "Identify semantic relationships between components and opinions."
     - "Evaluate transformer-based NLP architectures."
@@ -52,7 +52,7 @@ research_focus:
     - "Document the entire process in IEEE format."
 
 research_questions:
-  - "How accurately can transformer-based ABSA models classify sentiment in technical Reddit discussions?"
+  - "How accurately can transformer-based ABSA models classify sentiment in technical YouTube comment threads?"
   - "What hardware aspects generate the most positive or negative sentiment?"
   - "How does community perception differ between AMD, Intel, and NVIDIA products?"
   - "Can contextual NLP techniques improve sentiment detection in sarcastic or noisy comments?"
@@ -61,28 +61,44 @@ hypothesis:
   main_hypothesis: >
     Transformer-based hybrid ABSA systems combined with contextual
     preprocessing and domain-specific normalization can significantly
-    improve sentiment classification accuracy in technical Reddit discussions.
+    improve sentiment classification accuracy in technical YouTube comment threads.
 
 data_collection:
   source_platforms:
-    - "Reddit"
+    - "YouTube"
 
-  target_subreddits:
-    - "r/buildapc"
-    - "r/pcmasterrace"
-    - "r/Amd"
-    - "r/intel"
-    - "r/nvidia"
+  target_channels:
+    - "Linus Tech Tips"
+    - "Gamers Nexus"
+    - "Hardware Unboxed"
+    - "JayzTwoCents"
+    - "Bitwit"
+    - "Paul's Hardware"
+    - "Optimum"
+
+  search_queries:
+    - "RTX 4090 review"
+    - "RTX 4080 review"
+    - "RTX 4070 review"
+    - "Ryzen 7000 review"
+    - "Intel 13th Gen review"
+    - "RX 7900 XTX review"
+    - "RX 7800 XT review"
+    - "GPU temperature problem"
+    - "thermal throttling CPU"
+    - "coil whine GPU"
+    - "FPS bottleneck"
+    - "best budget GPU build"
 
   extraction_method:
-    primary_api: "PRAW"
+    primary_api: "YouTube Data API v3 (google-api-python-client)"
+
+    strategy: "Mixed: hardware-focused channels + keyword-based search queries"
 
     extraction_tasks:
-      - "Extract discussion threads"
-      - "Extract post titles"
-      - "Extract comments"
-      - "Extract timestamps"
-      - "Extract scores and metadata"
+      - "Extract video metadata (title, description, channel, timestamp)"
+      - "Extract top-level comment threads"
+      - "Extract comment likes (score) and timestamps"
       - "Filter hardware-specific discussions"
 
   target_hardware:
@@ -349,10 +365,11 @@ academic_paper:
     - "Original experimental analysis"
 
 limitations:
-  - "Reddit comments may contain sarcasm and ambiguity."
-  - "Community bias may affect sentiment distributions."
+  - "YouTube comments may contain sarcasm and ambiguity."
+  - "Channel and viewer bias may affect sentiment distributions."
   - "Dataset imbalance may reduce generalization."
   - "Hardware trends evolve rapidly."
+  - "YouTube Data API v3 daily quota (10,000 units) limits dataset size per day."
 
 ethical_considerations:
   pii_removal:
@@ -361,7 +378,7 @@ ethical_considerations:
   anonymization:
     enabled: true
 
-  reddit_terms_compliance:
+  youtube_terms_compliance:
     enabled: true
 
 deployment:
@@ -383,7 +400,7 @@ software_stack:
     - "Git"
 
   libraries:
-    - "PRAW"
+    - "google-api-python-client"
     - "Transformers"
     - "PyTorch"
     - "spaCy"
@@ -398,7 +415,7 @@ software_stack:
     - "Overleaf"
 
 deliverables:
-  - "Reddit extraction scripts"
+  - "YouTube extraction scripts"
   - "Annotated dataset"
   - "Preprocessing pipeline"
   - "Hybrid ABSA implementation"
