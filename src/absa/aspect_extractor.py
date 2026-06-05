@@ -5,6 +5,18 @@ Descripción: Extracción y categorización de aspectos
              técnicos en comentarios de hardware de PC
              mediante análisis de dependencias (spaCy)
              y similitud semántica (SentenceTransformers).
+
+Proyecto:    ¿Mi PC corre el DOOM?
+Equipo 12 — "Los Papois":
+    - Capistrán Ponce Manuel Emiliano
+    - Gutiérrez Contreras Aldo Aarón
+    - Rivera López David Zaid
+    - Suárez Guzmán Dayna Yarelly
+Asignatura:  Análisis y Procesamiento Inteligente de Textos
+Profesor:    Octavio Sánchez
+Universidad: Facultad de Ingeniería, UNAM
+Semestre:    2026-2
+
 Idioma de documentación: Español (IEEE)
 ========================================================
 """
