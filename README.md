@@ -43,12 +43,13 @@ ProyectoAPIT/
 │   └── visualization/
 │       └── dashboard.py              # Visualizaciones con Plotly
 ├── data/
-│   └── raw/                          # Datos extraídos de YouTube (CSV, JSON, Parquet)
-├── reports/
-│   └── figures/                      # Gráficos HTML generados
-└── notebook_exploration/
-    └── exploracion.ipynb             # Notebook de experimentación
+│   ├── raw/                          # Datos extraídos de YouTube (CSV, JSON, Parquet)
+│   └── processed/                    # Resultados ABSA (absa_results.csv)
+└── reports/
+    └── figures/                      # Gráficos HTML generados
 ```
+
+> 💡 Los directorios `data/` y `reports/` se generan automáticamente al ejecutar el pipeline. Están excluidos del control de versiones (ver `.gitignore`).
 
 ---
 
