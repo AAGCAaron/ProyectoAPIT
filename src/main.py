@@ -7,6 +7,18 @@ Descripción: Pipeline de ejecución principal para el
              (si se configuran las credenciales de YouTube)
              o con datos simulados para validar la
              funcionalidad de forma offline.
+
+Proyecto:    ¿Mi PC corre el DOOM?
+Equipo 12 — "Los Papois":
+    - Capistrán Ponce Manuel Emiliano
+    - Gutiérrez Contreras Aldo Aarón
+    - Rivera López David Zaid
+    - Suárez Guzmán Dayna Yarelly
+Asignatura:  Análisis y Procesamiento Inteligente de Textos
+Profesor:    Octavio Sánchez
+Universidad: Facultad de Ingeniería, UNAM
+Semestre:    2026-2
+
 Idioma de documentación: Español (IEEE)
 ========================================================
 """
@@ -107,9 +119,9 @@ def main():
         try:
             colector = YouTubeCollector(api_key=youtube_api_key)
             df_raw = colector.recolectar_todo(
-                videos_por_canal=3,
-                videos_por_query=3,
-                limite_comentarios=20,
+                videos_por_canal=5,
+                videos_por_query=5,
+                limite_comentarios=30,
             )
             print(f"[PIPELINE] Extracción exitosa: {len(df_raw)} registros recolectados.")
             # Persistir datos crudos para reproducibilidad

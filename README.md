@@ -1,6 +1,25 @@
-# ABSA para Discusiones de Hardware de PC en YouTube
+# ¿Mi PC corre el DOOM?
+## ABSA para Discusiones de Hardware de PC en YouTube
 
 > Sistema de **Análisis de Sentimiento Basado en Aspectos (ABSA)** orientado a la comunidad de revisión de hardware de PC en YouTube, implementado con Transformers, spaCy y YouTube Data API v3.
+
+---
+
+## 👥 Equipo 12 — "Los Papois"
+
+| Integrante | Rol |
+| :--- | :--- |
+| Capistrán Ponce Manuel Emiliano | Integrante |
+| Gutiérrez Contreras Aldo Aarón | Integrante |
+| Rivera López David Zaid | Integrante |
+| Suárez Guzmán Dayna Yarelly | Integrante |
+
+**Contexto académico:**
+- 🎓 **Universidad**: Universidad Nacional Autónoma de México (UNAM)
+- 🏛️ **Facultad**: Facultad de Ingeniería
+- 📚 **Asignatura**: Análisis y Procesamiento Inteligente de Textos
+- 👨‍🏫 **Profesor**: Octavio Sánchez
+- 📅 **Semestre**: 2026-2
 
 ---
 

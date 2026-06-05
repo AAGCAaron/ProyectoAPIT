@@ -1,5 +1,23 @@
 project:
-  title: "Aspect-Based Sentiment Analysis (ABSA) for PC Hardware Discussions Using NLP, Transformers, and YouTube Data Mining"
+  title: "¿Mi PC corre el DOOM? — Aspect-Based Sentiment Analysis (ABSA) for PC Hardware Discussions Using NLP, Transformers, and YouTube Data Mining"
+  team_name: "Los Papois"
+  team_number: 12
+  members:
+
+    - Capistrán Ponce Manuel Emiliano
+
+    - Gutiérrez Contreras Aldo Aarón
+
+    - Rivera López David Zaid
+
+    - Suárez Guzmán Dayna Yarelly
+
+  academic_context:
+    university: "Universidad Nacional Autónoma de México (UNAM)"
+    faculty:    "Facultad de Ingeniería"
+    course:     "Análisis y Procesamiento Inteligente de Textos"
+    professor:  "Octavio Sánchez"
+    semester:   "2026-2"
 
 language:
   prompt_language: "English"
