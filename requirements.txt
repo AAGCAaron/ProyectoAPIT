@@ -4,8 +4,8 @@
 # Se usan rangos de versión para permitir ruedas precompiladas (wheels)
 # ─────────────────────────────────────────────────────────────────────
 
-# Extracción de datos de Reddit
-praw>=7.7.1
+# Extracción de datos de YouTube
+google-api-python-client>=2.120
 
 # NLP y preprocesamiento
 # spaCy: sin pin estricto para que pip escoja la rueda compatible con tu Python
