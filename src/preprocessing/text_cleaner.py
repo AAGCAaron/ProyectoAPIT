@@ -2,7 +2,7 @@
 ========================================================
 Módulo: text_cleaner.py
 Descripción: Preprocesamiento y normalización de texto
-             para comentarios de Reddit sobre hardware de PC.
+             para comentarios de YouTube sobre hardware de PC.
              Incluye manejo de jerga técnica, emojis,
              negaciones contextuales y sarcasmo.
 Idioma de documentación: Español (IEEE)
@@ -112,7 +112,7 @@ INDICADORES_SARCASMO = [
 class TextCleaner:
     """
     Clase para preprocesamiento y normalización de texto
-    proveniente de comentarios de Reddit sobre hardware de PC.
+    proveniente de comentarios de YouTube sobre hardware de PC.
 
     Implementa las siguientes etapas:
         1. Eliminación de URLs y caracteres especiales.
@@ -177,11 +177,13 @@ class TextCleaner:
 
     def eliminar_ruido(self, texto: str) -> str:
         """Elimina caracteres especiales, puntuación excesiva y espacios múltiples."""
-        # Eliminar menciones de usuario Reddit (/u/usuario)
-        texto = re.sub(r"/u/\w+", "", texto)
-        # Eliminar menciones de subreddit (/r/subreddit)
-        texto = re.sub(r"/r/\w+", "", texto)
-        # Eliminar caracteres especiales de Markdown de Reddit
+        # Eliminar menciones de usuario YouTube (@usuario)
+        texto = re.sub(r"@\w+", "", texto)
+        # Eliminar timestamps de video (ej. 1:23, 12:34, 1:23:45)
+        texto = re.sub(r"\b\d{1,2}:\d{2}(?::\d{2})?\b", "", texto)
+        # Eliminar hashtags
+        texto = re.sub(r"#\w+", "", texto)
+        # Eliminar caracteres especiales/formato
         texto = re.sub(r"[>\*\_\~\`\#\^\[\]\|]", " ", texto)
         # Eliminar dígitos aislados (no parte de modelos de hardware)
         texto = re.sub(r"\b\d{1,2}\b(?!\s*(th|st|nd|rd|Gen|gen|%))", " ", texto)
@@ -225,7 +227,7 @@ class TextCleaner:
         Aplica el pipeline completo de limpieza y preprocesamiento.
 
         Args:
-            texto: Texto crudo extraído de Reddit.
+            texto: Texto crudo extraído de YouTube.
 
         Returns:
             Diccionario con el texto procesado y metadatos de análisis.

@@ -3,7 +3,7 @@
 Módulo: dashboard.py
 Descripción: Generación de visualizaciones y reportes
              estadísticos para el análisis ABSA de
-             hardware de PC en Reddit.
+             hardware de PC en YouTube.
 Idioma de documentación: Español (IEEE)
 ========================================================
 """

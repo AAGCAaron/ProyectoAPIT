@@ -1,6 +1,6 @@
 # 📖 Manual de Uso: ABSA para PC Hardware Discussions
 
-Este manual proporciona una guía detallada paso a paso para configurar, ejecutar y analizar los resultados del sistema de **Análisis de Sentimiento Basado en Aspectos (ABSA)** para discusiones sobre hardware de PC en Reddit.
+Este manual proporciona una guía detallada paso a paso para configurar, ejecutar y analizar los resultados del sistema de **Análisis de Sentimiento Basado en Aspectos (ABSA)** para discusiones sobre hardware de PC en **YouTube**.
 
 ---
 
@@ -8,46 +8,40 @@ Este manual proporciona una guía detallada paso a paso para configurar, ejecuta
 
 Antes de comenzar, asegúrate de tener instalado y configurado lo siguiente en tu máquina (Windows):
 
-1. **Python 3.11** (versión recomendada y probada).
+1. **Python 3.11+** (versión recomendada y probada).
 2. **Entorno virtual activado** (`venv`).
 3. **Dependencias instaladas** (`pip install -r requirements.txt`).
 4. **Modelo de spaCy descargado** (`python -m spacy download en_core_web_sm`).
 
 > [!NOTE]
-> Si ya seguiste las instrucciones iniciales de instalación y las dependencias se instalaron correctamente, puedes pasar directamente a la configuración de la API de Reddit.
+> Si ya seguiste las instrucciones iniciales de instalación y las dependencias se instalaron correctamente, puedes pasar directamente a la configuración de la API de YouTube.
 
 ---
 
-## 🔑 Paso 1: Configurar Credenciales de la API de Reddit
+## 🔑 Paso 1: Configurar Credenciales de la YouTube Data API v3
 
-Para que el sistema recopile discusiones en tiempo real de Reddit en lugar de usar datos simulados, debes crear una aplicación de desarrollador en Reddit:
+Para que el sistema recopile comentarios reales de YouTube en lugar de usar datos simulados, debes crear una clave de API en Google Cloud:
 
-1. Ve al portal de preferencias de aplicaciones de Reddit: [https://www.reddit.com/prefs/apps](https://www.reddit.com/prefs/apps) (inicia sesión con tu cuenta de Reddit).
-2. Haz clic en el botón **"are you a developer? create another app..."** (¿eres desarrollador? crea otra aplicación...).
-3. Rellena los campos con la siguiente configuración:
-   * **name**: `ABSA-PC-Hardware` (o el nombre que prefieras).
-   * **Tipo de app**: Selecciona la opción **script** (esférico de selección obligatorio).
-   * **description**: Opcional (ej. *Pipeline ABSA de hardware*).
-   * **about url**: Puedes dejarlo en blanco.
-   * **redirect uri**: Escribe `http://localhost:8080` (es un requerimiento formal de Reddit, no se usará un servidor web).
-4. Haz clic en **create app**.
-5. Una vez creada, aparecerán tus llaves en pantalla:
-   * El **Client ID** es el código alfanumérico corto que aparece justo debajo de *"personal use gold"* (ej. `xYz12345AbCd`).
-   * El **Client Secret** es la cadena larga etiquetada como *"secret"* (ej. `aBcDeFgHiJkLmNoPqRsTuVwXyZ0123`).
-
-### Crear el Archivo de Configuración `.env`
-1. En la carpeta raíz de tu proyecto (`d:\ProyectoAPIT\`), crea un archivo de texto y nómbralo **`.env`** (o copia y renombra el archivo `.env.example`).
-2. Edítalo y añade tus credenciales tal como se muestra a continuación:
-
-```env
-# Credenciales de acceso a la API de Reddit
-REDDIT_CLIENT_ID=TU_CLIENT_ID_AQUI
-REDDIT_CLIENT_SECRET=TU_CLIENT_SECRET_AQUI
-REDDIT_USER_AGENT=ABSA-PCHardware/1.0 by tu_usuario_de_reddit
-```
+1. Entra a la consola de Google Cloud: [https://console.cloud.google.com](https://console.cloud.google.com) (inicia sesión con tu cuenta de Google).
+2. **Crea un proyecto nuevo** (botón superior — *Select a project → New project*). Asigna un nombre como `ABSA-PCHardware`.
+3. En el menú lateral selecciona **APIs & Services → Library**.
+4. Busca **"YouTube Data API v3"** y haz clic en **Enable** (Habilitar).
+5. Ve a **APIs & Services → Credentials → Create credentials → API key**.
+6. Se generará una clave alfanumérica (ej. `AIzaSyD-xxxxxxxxxxxxxxxxxxxxxxxx`). **Cópiala**.
 
 > [!IMPORTANT]
-> El campo `REDDIT_USER_AGENT` es obligatorio para evitar bloqueos por parte de los servidores de Reddit. Reemplaza `tu_usuario_de_reddit` con tu nombre de usuario real en Reddit.
+> La API permite hasta **10,000 unidades de cuota gratuita por día**. Cada búsqueda cuesta ~100 unidades y cada lista de comentarios ~1 unidad. Con esto se pueden recolectar miles de comentarios diarios sin costo.
+
+### Crear el Archivo de Configuración `.env`
+1. En la carpeta raíz del proyecto crea un archivo llamado **`.env`** (o copia el archivo `.env.example`).
+2. Edítalo con tu clave:
+
+```env
+YOUTUBE_API_KEY=AIzaSyD-xxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+> [!WARNING]
+> **Nunca subas el archivo `.env` a Git.** Ya está incluido en `.gitignore`. Si tu clave se filtra, revócala desde *APIs & Services → Credentials* y crea una nueva.
 
 ---
 
@@ -55,10 +49,10 @@ REDDIT_USER_AGENT=ABSA-PCHardware/1.0 by tu_usuario_de_reddit
 
 El sistema cuenta con un punto de entrada centralizado en `src/main.py` que ejecuta secuencialmente todo el pipeline: extracción, limpieza, extracción de aspectos, clasificación y graficación.
 
-Abre una terminal de PowerShell en la raíz de tu proyecto y ejecuta:
+Abre una terminal de PowerShell en la raíz del proyecto y ejecuta:
 
 ```powershell
-# Asegúrate de tener activado el entorno virtual (venv)
+# Activar entorno virtual
 .\venv\Scripts\activate
 
 # Ejecutar el pipeline principal
@@ -66,60 +60,67 @@ python src/main.py
 ```
 
 ### 💡 Modos de Ejecución Dinámica del Pipeline
-El script `src/main.py` detecta de forma automática la presencia de tus credenciales:
+El script `src/main.py` detecta automáticamente la presencia de la clave de API:
 
-* **Modo Simulación (Sin `.env`)**: Si no has configurado tus credenciales, el sistema imprimirá una advertencia y utilizará un dataset local estructurado de prueba (`MOCK_REDDIT_DATA`) que cubre múltiples marcas (AMD, NVIDIA, Intel), opiniones encontradas y sarcasmo. Esto permite validar todo el flujo de modelos y generación de gráficos de forma offline en segundos.
-* **Modo Producción Real (Con `.env`)**: Si detecta las credenciales de Reddit, se conectará a la API, extraerá los posts y comentarios más recientes y populares en vivo de subreddits clave (`r/pcmasterrace`, `r/buildapc`, `r/Amd`, `r/nvidia`, `r/intel`) y procesará los datos actualizados.
+* **Modo Simulación (Sin `.env` o clave inválida)**: el sistema imprime una advertencia y utiliza un dataset local de prueba (`MOCK_YOUTUBE_DATA`) que cubre múltiples marcas (AMD, NVIDIA, Intel), opiniones encontradas y sarcasmo. Útil para validar todo el pipeline offline en segundos.
+* **Modo Producción Real (Con `.env` válido)**: el sistema se conecta a la YouTube Data API v3, ejecuta la **estrategia mixta** de recolección (canales especializados + búsquedas por keywords) y procesa los comentarios extraídos.
+
+### 📺 Estrategia Mixta de Recolección
+El colector implementa dos vías complementarias:
+1. **Canales especializados**: Linus Tech Tips, Gamers Nexus, Hardware Unboxed, JayzTwoCents, Bitwit, Paul's Hardware, Optimum.
+2. **Búsqueda por keywords**: queries como *"RTX 4090 review"*, *"Ryzen 7000 benchmark"*, *"GPU temperature problem"*, *"coil whine GPU"*, etc.
+
+Para cada video se extraen los comentarios de nivel superior ordenados por **relevancia**.
 
 ---
 
 ## 📈 Paso 3: Análisis y Comprensión de Resultados
 
 Una vez completado el pipeline, se generará el archivo de resultados principal en:
-💾 **`d:\ProyectoAPIT\data\processed\absa_results.csv`**
+💾 **`data/processed/absa_results.csv`**
 
 Este archivo contiene la segmentación del análisis de sentimiento por aspecto. Los campos clave son:
 
 | Columna | Descripción | Ejemplo |
 | :--- | :--- | :--- |
-| `id` | Identificador único del post o comentario en Reddit. | `post1` |
-| `texto_original` | El texto completo redactado por el usuario de Reddit. | *"I just built my PC. The gaming performance is absolutely insane..."* |
+| `id` | Identificador único del video o comentario en YouTube. | `Ugxa1bC2dE3fG4...` |
+| `texto_original` | Texto completo del comentario o título del video. | *"I just built my PC. The gaming performance is absolutely insane..."* |
 | `marca` | Marca de hardware asociada detectada contextualmente. | `AMD`, `NVIDIA`, `Intel` |
-| `aspecto` | La palabra o frase específica extraída que denota el aspecto técnico. | `temperature`, `performance`, `noise` |
-| `categoria` | Categoría de hardware a la que se asoció semánticamente. | `thermal`, `performance`, `acoustics`, `value`, `reliability` |
+| `aspecto` | Palabra o frase específica que denota el aspecto técnico. | `temperature`, `performance`, `noise` |
+| `categoria` | Categoría de hardware asociada semánticamente. | `thermal`, `performance`, `acoustics`, `value`, `reliability` |
 | `sentimiento` | Sentimiento asignado al aspecto en su oración local. | `Positive`, `Neutral`, `Negative` |
 | `confianza` | Score de confianza probabilística de la predicción del Transformer. | `0.9674` |
-| `sarcasmo` | Indica si el módulo preprocesador detectó ironía o sarcasmo en el texto. | `True` / `False` |
+| `sarcasmo` | Indica si el preprocesador detectó ironía o sarcasmo. | `True` / `False` |
 
 ### 🧠 ¿Cómo funciona la Lógica de Clasificación Local?
-A diferencia de los analizadores tradicionales que le asignan el sentimiento global del comentario a todos los aspectos, nuestro sistema utiliza **segmentación semántica**:
-1. Busca el aspecto o sus palabras clave asociadas dentro de las oraciones individuales del comentario original.
+A diferencia de los analizadores tradicionales que asignan el sentimiento global del comentario a todos los aspectos, este sistema utiliza **segmentación semántica**:
+1. Busca el aspecto o sus palabras clave dentro de las oraciones individuales del comentario original.
 2. Extrae la oración exacta donde se encuentra el aspecto (ej: *"idle temperatures are reaching 65C"*).
 3. Evalúa con el Transformer **únicamente** el texto de esa oración específica.
-4. Esto permite que una opinión mixta (como un gran rendimiento pero malas temperaturas) asigne correctamente un sentimiento **Positivo** a la performance y uno **Neutral/Negativo** a la temperatura dentro del mismo comentario.
+4. Esto permite que una opinión mixta (gran rendimiento pero malas temperaturas) asigne correctamente un sentimiento **Positivo** a la performance y uno **Negativo** a la temperatura dentro del mismo comentario.
 
 ---
 
 ## 📊 Paso 4: Visualización de los Dashboards
 
-El sistema genera visualizaciones web totalmente interactivas en la carpeta:
-📂 **`d:\ProyectoAPIT\reports\figures\`**
+El sistema genera visualizaciones web interactivas en:
+📂 **`reports/figures/`**
 
-Puedes abrir cualquiera de los siguientes archivos directamente en tu navegador (haciendo doble clic sobre ellos en el Explorador de Windows o arrastrándolos a Chrome/Edge):
+Abre cualquiera de los siguientes archivos en tu navegador:
 
-1. **`distribucion_sentimiento.html`**: Muestra cuántas menciones existen de cada sentimiento para los diferentes aspectos técnicos globales de hardware.
-2. **`sentimiento_por_aspecto.html`**: Gráfico de barras apiladas interactivo que desglosa el porcentaje de polaridad (Positivo, Neutro, Negativo) específico para cada una de las 6 categorías principales (Thermal, Performance, Value, Acoustics, Reliability, Compatibility).
-3. **`comparacion_marcas.html`**: Comparación cara a cara de la percepción de los usuarios sobre AMD vs. NVIDIA vs. Intel, analizando qué aspectos son más fuertes o criticados en cada marca.
-4. **`evolucion_temporal.html`**: Gráfico de líneas que ilustra la fluctuación de los sentimientos a lo largo del tiempo (fecha y hora del post).
+1. **`distribucion_sentimiento.html`**: cuántas menciones existen de cada sentimiento para los aspectos técnicos globales.
+2. **`sentimiento_por_aspecto.html`**: gráfico de barras apiladas con el porcentaje de polaridad (Positivo, Neutro, Negativo) por cada una de las 6 categorías (Thermal, Performance, Value, Acoustics, Reliability, Compatibility).
+3. **`comparacion_marcas.html`**: comparación cara a cara de la percepción de los usuarios sobre AMD vs. NVIDIA vs. Intel.
+4. **`evolucion_temporal.html`**: línea temporal con la fluctuación de sentimientos a lo largo del tiempo.
 
 ---
 
-## 🔬 Ejecución de Módulos Individuales (Para Pruebas y Desarrollo)
+## 🔬 Ejecución de Módulos Individuales (Pruebas y Desarrollo)
 
-Cada componente de la arquitectura del proyecto puede ejecutarse de manera independiente para validar su comportamiento con entradas de prueba propias escribiendo en terminal:
+Cada componente puede ejecutarse de manera independiente:
 
-* **Prueba de Extracción (Reddit API)**:
-  `python src/data_collection/reddit_collector.py`
+* **Prueba de Extracción (YouTube API)**:
+  `python src/data_collection/youtube_collector.py`
 * **Prueba del Limpiador y Detección de Sarcasmo**:
   `python src/preprocessing/text_cleaner.py`
 * **Prueba de Extracción de Aspectos (spaCy & SentenceTransformers)**:
@@ -128,3 +129,14 @@ Cada componente de la arquitectura del proyecto puede ejecutarse de manera indep
   `python src/absa/sentiment_classifier.py`
 * **Generación Directa de Visualizaciones**:
   `python src/visualization/dashboard.py`
+
+---
+
+## ⚠️ Manejo de Errores Comunes
+
+| Error | Causa | Solución |
+| :--- | :--- | :--- |
+| `quotaExceeded` | Se agotaron las 10,000 unidades diarias. | Esperar 24h o crear un segundo proyecto con otra cuenta de Google. |
+| `commentsDisabled` | El video tiene comentarios deshabilitados. | El colector lo ignora automáticamente y continúa. |
+| `403 Forbidden` | La clave de API no tiene habilitada la YouTube Data API v3. | Verificar en *APIs & Services → Library* que esté **Enabled**. |
+| `keyInvalid` | Clave mal copiada o revocada. | Generar una nueva clave en *Credentials*. |
