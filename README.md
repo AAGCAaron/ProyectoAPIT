@@ -180,6 +180,26 @@ dashboard.py (Plotly → reports/figures/)
 
 ---
 
+## 📈 Resultados Visuales
+
+Las siguientes figuras corresponden a la corrida estándar del *pipeline* con la configuración `5/5/30` (5 videos por canal, 5 videos por consulta, 30 comentarios por video), que produjo **1{,}412 registros crudos** de **113 videos únicos** y **4{,}499 pares aspecto-sentimiento**.
+
+### Distribución global de sentimientos
+![Distribución global de sentimientos](reports/figures/distribucion_sentimiento.png)
+
+### Sentimiento por categoría de aspecto
+![Sentimiento por categoría](reports/figures/sentimiento_por_aspecto.png)
+
+### Comparación entre marcas (AMD vs NVIDIA vs Intel)
+![Comparación de marcas](reports/figures/comparacion_marcas.png)
+
+### Evolución temporal del sentimiento
+![Evolución temporal](reports/figures/evolucion_temporal.png)
+
+> 💡 Los dashboards interactivos en HTML (con tooltips, zoom y filtros) se generan al correr `python src/main.py` y quedan disponibles en `reports/figures/*.html`. Para abrirlos: doble clic sobre el archivo en el explorador, o desde la terminal: `start reports/figures/distribucion_sentimiento.html`.
+
+---
+
 ## 📺 Estrategia de Recolección Mixta
 
 El colector implementa dos vías complementarias de extracción:

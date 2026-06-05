@@ -4,8 +4,12 @@
 # Datos extraídos (pueden ser pesados)
 data/
 
-# Reportes y figuras generadas
-reports/
+# Reportes generados
+# - Excluye los HTML interactivos (~5 MB cada uno, no renderizan en GitHub)
+# - Incluye los PNG estáticos para que el profesor pueda verlos directamente
+reports/figures/*.html
+!reports/figures/
+!reports/figures/*.png
 
 # Entorno virtual de Python
 venv/
