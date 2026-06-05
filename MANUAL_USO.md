@@ -1,6 +1,11 @@
-# 📖 Manual de Uso: ABSA para PC Hardware Discussions
+# 📖 Manual de Uso: ¿Mi PC corre el DOOM?
+## ABSA para PC Hardware Discussions
 
 Este manual proporciona una guía detallada paso a paso para configurar, ejecutar y analizar los resultados del sistema de **Análisis de Sentimiento Basado en Aspectos (ABSA)** para discusiones sobre hardware de PC en **YouTube**.
+
+**Equipo 12 — "Los Papois"** · Facultad de Ingeniería, UNAM · Análisis y Procesamiento Inteligente de Textos · Profesor Octavio Sánchez · Semestre 2026-2
+
+Integrantes: Capistrán Ponce Manuel Emiliano, Gutiérrez Contreras Aldo Aarón, Rivera López David Zaid, Suárez Guzmán Dayna Yarelly.
 
 ---
 

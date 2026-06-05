@@ -4,6 +4,18 @@ Módulo: sentiment_classifier.py
 Descripción: Clasificación de polaridad de sentimiento
              por aspecto usando modelos Transformer.
              Soporta inferencia zero-shot y fine-tuning.
+
+Proyecto:    ¿Mi PC corre el DOOM?
+Equipo 12 — "Los Papois":
+    - Capistrán Ponce Manuel Emiliano
+    - Gutiérrez Contreras Aldo Aarón
+    - Rivera López David Zaid
+    - Suárez Guzmán Dayna Yarelly
+Asignatura:  Análisis y Procesamiento Inteligente de Textos
+Profesor:    Octavio Sánchez
+Universidad: Facultad de Ingeniería, UNAM
+Semestre:    2026-2
+
 Idioma de documentación: Español (IEEE)
 ========================================================
 """
